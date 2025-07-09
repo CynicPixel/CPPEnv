@@ -7,7 +7,7 @@ A streamlined setup for competitive programming in C++ with automatic I/O handli
 1. **Write your solution** in `code/code.cpp` (implement your complete solution)
 2. **Add test cases** in `code/input.txt`
 3. **Run and test** with `./cp.sh run`
-4. **Save your solution** with `./cp.sh save "problem_name"`
+4. **Save your solution** with `./cp.sh save problem_name`
 
 ## 📁 File Structure
 
