@@ -1,0 +1,33 @@
+# Compiled binaries
+solution
+solution.exe
+temp_solution
+temp_solution.exe
+code/solution
+code/solution.exe
+
+# Debug symbol directories (macOS)
+*.dSYM/
+code/*.dSYM/
+
+# Windows debug files
+*.pdb
+*.ilk
+
+# Output files (regenerated each run)
+output.txt
+code/output.txt
+
+# Temporary files
+temp_*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+*.vcxproj*
+*.sln
+.vscode/
+.idea/
