@@ -1,60 +1,73 @@
 @echo off
-REM List and manage saved solutions (Windows)
+
+REM List all saved solutions (Windows)
 REM Usage: list.bat [solution_name]
 
+chcp 65001 >nul 2>&1
 setlocal enabledelayedexpansion
 
+set "SOLUTION_NAME=%1"
 set "SOLUTIONS_DIR=solutions"
 
-echo 📚 Competitive Programming Solutions
-echo ═══════════════════════════════════
-
-if not exist "%SOLUTIONS_DIR%" (
-    echo 📂 No solutions directory found.
-    echo 💡 Save your first solution with: save.bat "problem_name"
-    exit /b 0
-)
-
-if "%~1"=="" (
-    REM List all solutions
-    echo Saved solutions:
-    for /d %%i in ("%SOLUTIONS_DIR%\*") do (
-        echo   📁 %%~ni
-        
-        REM Show brief description if available
-        if exist "%%i\README.md" (
-            for /f "skip=3 delims=" %%j in (%%i\README.md) do (
-                if not "%%j"=="" (
-                    echo      └─ %%j
-                    goto :next
-                )
-            )
-            :next
-        )
-    )
-    echo.
-    echo 💡 Use: cp.bat list solution_name for details
-) else (
-    REM Show specific solution
-    set "solution_name=%~1"
-    set "solution_path=%SOLUTIONS_DIR%\!solution_name!"
+if not "%SOLUTION_NAME%"=="" (
+    REM Show specific solution details
+    set "SOLUTION_PATH=%SOLUTIONS_DIR%\%SOLUTION_NAME%"
     
-    if not exist "!solution_path!" (
-        echo ❌ Solution '!solution_name!' not found!
+    if not exist "!SOLUTION_PATH!" (
+        echo ❌ Error: Solution '%SOLUTION_NAME%' not found!
+        echo 💡 Use: cp.bat list to see available solutions
         exit /b 1
     )
     
-    echo 📁 Solution: !solution_name!
-    echo 📍 Path: !solution_path!
+    echo 📋 Solution Details: %SOLUTION_NAME%
+    echo ═══════════════════════════════════════
+    echo 📁 Location: !SOLUTION_PATH!
     echo.
     
-    if exist "!solution_path!\README.md" (
-        echo 📋 README Preview:
-        for /f "delims=" %%i in ('more +0 "!solution_path!\README.md" ^| head -n 10') do echo %%i
-        echo ...
+    if exist "!SOLUTION_PATH!\README.md" (
+        echo 📄 Information:
+        type "!SOLUTION_PATH!\README.md"
+        echo.
+    )
+    
+    echo 📂 Files:
+    for %%f in ("!SOLUTION_PATH!\*") do (
+        echo   - %%~nxf
     )
     
     echo.
-    echo 📄 Files:
-    dir "!solution_path!" /b
+    echo 💡 Run with: cp.bat run %SOLUTION_NAME%
+    
+) else (
+    REM List all solutions
+    if not exist "%SOLUTIONS_DIR%" (
+        echo 📁 No solutions directory found
+        echo 💡 Use: cp.bat save ^<name^> to create your first solution
+        exit /b 0
+    )
+    
+    echo 📋 Saved Solutions:
+    echo ═══════════════════
+    
+    set "SOLUTION_COUNT=0"
+    for /d %%i in ("%SOLUTIONS_DIR%\*") do (
+        set /a SOLUTION_COUNT+=1
+        echo 📁 %%~ni
+        
+        REM Show description if available
+        if exist "%%i\README.md" (
+            for /f "tokens=2*" %%a in ('findstr /C:"**Description:**" "%%i\README.md" 2^>nul') do (
+                echo    %%b
+            )
+        )
+    )
+    
+    if !SOLUTION_COUNT! equ 0 (
+        echo 📁 No solutions saved yet
+        echo 💡 Use: cp.bat save ^<name^> to create your first solution
+    ) else (
+        echo.
+        echo 💡 View details: cp.bat list ^<solution_name^>
+        echo 💡 Run solution: cp.bat run ^<solution_name^>
+    )
 )

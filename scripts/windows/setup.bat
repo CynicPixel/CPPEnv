@@ -1,19 +1,57 @@
 @echo off
-REM Setup script for new competitive programming problems (Windows)
+
+REM Setup workspace for new problem (Windows)
 REM Usage: setup.bat [problem_name]
 
-set "PROBLEM_NAME=%*"
+chcp 65001 >nul 2>&1
+setlocal enabledelayedexpansion
 
-echo 🛠️  Setting up new competitive programming problem...
+set "PROBLEM_NAME=%1"
+set "CODE_DIR=code"
 
-REM Clear or create fresh files
-echo 🧹 Cleaning workspace...
+if "%PROBLEM_NAME%"=="" (
+    echo 🔄 Setting up workspace for new problem...
+) else (
+    echo 🔄 Setting up workspace for: %PROBLEM_NAME%
+)
 
-REM Reset code/code.cpp with blank template
+REM Create code directory if it doesn't exist
+if not exist "%CODE_DIR%" (
+    mkdir "%CODE_DIR%"
+)
+
+REM Check if there's existing work
+if exist "%CODE_DIR%\code.cpp" (
+    for %%A in (%CODE_DIR%\code.cpp) do if %%~zA gtr 50 (
+        echo ⚠️ Warning: Existing code.cpp found with content!
+        set /p "OVERWRITE=Do you want to overwrite it? (y/N): "
+        if /i not "!OVERWRITE!"=="y" (
+            echo ❌ Setup cancelled
+            exit /b 1
+        )
+    )
+)
+
+REM Create template code.cpp
+echo 🔧 Creating template code.cpp...
 (
 echo #include ^<iostream^>
+echo #include ^<vector^>
+echo #include ^<algorithm^>
+echo #include ^<string^>
+echo #include ^<map^>
+echo #include ^<set^>
+echo #include ^<queue^>
+echo #include ^<stack^>
+echo #include ^<cmath^>
+echo #include ^<climits^>
+echo.
 echo using namespace std;
 echo.
+if not "%PROBLEM_NAME%"=="" (
+    echo // Problem: %PROBLEM_NAME%
+    echo.
+)
 echo int main^(^) {
 echo     ios_base::sync_with_stdio^(false^);
 echo     cin.tie^(NULL^);
@@ -22,19 +60,26 @@ echo     // Your solution here
 echo.
 echo     return 0;
 echo }
-) > code\code.cpp
+) > "%CODE_DIR%\code.cpp"
 
-REM Clear code/input.txt
-echo 1 > code\input.txt
+REM Create sample input.txt
+echo 🔧 Creating sample input.txt...
+echo 1 > "%CODE_DIR%\input.txt"
 
-REM Clear code/output.txt if it exists
-if exist code\output.txt del code\output.txt
-
-echo ✅ Workspace reset!
-echo 📝 Edit code\code.cpp to implement your solution
-echo 📝 Edit code\input.txt to add your test cases
-echo 🏃 Run cp.bat run to test your solution
-
-if not "%PROBLEM_NAME%"=="" (
-    echo 💡 When done, save with: cp.bat save %PROBLEM_NAME%
+REM Clean up any existing output
+if exist "%CODE_DIR%\output.txt" (
+    del "%CODE_DIR%\output.txt"
 )
+if exist "%CODE_DIR%\solution.exe" (
+    del "%CODE_DIR%\solution.exe"
+)
+
+echo ✅ Workspace setup complete!
+echo 📁 Files created:
+echo   - %CODE_DIR%\code.cpp (template)
+echo   - %CODE_DIR%\input.txt (sample input)
+echo.
+echo 💡 Next steps:
+echo   1. Edit %CODE_DIR%\code.cpp with your solution
+echo   2. Update %CODE_DIR%\input.txt with test data
+echo   3. Run with: cp.bat run
