@@ -21,6 +21,9 @@ code/output.txt
 # Temporary files
 temp_*
 
+# Solutions folder (user-specific saved solutions)
+solutions/
+
 # OS-specific files
 .DS_Store
 Thumbs.db
