@@ -26,16 +26,36 @@ if not "%SOLUTION_NAME%"=="" (
     
     if exist "!SOLUTION_PATH!\README.md" (
         echo 📄 Information:
-        type "!SOLUTION_PATH!\README.md"
+        
+        REM Parse and display README.md content nicely
+        for /f "usebackq tokens=1* delims= " %%a in (`findstr /C:"**Description:**" "!SOLUTION_PATH!\README.md" 2^>nul`) do (
+            set "DESC_LINE=%%b"
+            if defined DESC_LINE (
+                echo   📖 Description: !DESC_LINE!
+            )
+        )
+        
+        for /f "usebackq tokens=1* delims= " %%a in (`findstr /C:"**Saved:**" "!SOLUTION_PATH!\README.md" 2^>nul`) do (
+            set "SAVE_LINE=%%b"
+            if defined SAVE_LINE (
+                echo   📅 Saved: !SAVE_LINE!
+            )
+        )
+        
+        echo   📂 Files:
+        for %%f in ("!SOLUTION_PATH!\*") do (
+            if /i not "%%~nxf"=="README.md" (
+                echo     - %%~nxf
+            )
+        )
+        echo.
+    ) else (
+        echo 📂 Files:
+        for %%f in ("!SOLUTION_PATH!\*") do (
+            echo   - %%~nxf
+        )
         echo.
     )
-    
-    echo 📂 Files:
-    for %%f in ("!SOLUTION_PATH!\*") do (
-        echo   - %%~nxf
-    )
-    
-    echo.
     echo 💡 Run with: cp.bat run %SOLUTION_NAME%
     
 ) else (
@@ -56,8 +76,11 @@ if not "%SOLUTION_NAME%"=="" (
         
         REM Show description if available
         if exist "%%i\README.md" (
-            for /f "tokens=2*" %%a in ('findstr /C:"**Description:**" "%%i\README.md" 2^>nul') do (
-                echo    %%b
+            for /f "usebackq tokens=1* delims= " %%a in (`findstr /C:"**Description:**" "%%i\README.md" 2^>nul`) do (
+                set "DESC_LINE=%%b"
+                if defined DESC_LINE (
+                    echo    !DESC_LINE!
+                )
             )
         )
     )

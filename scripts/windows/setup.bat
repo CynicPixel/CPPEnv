@@ -53,8 +53,6 @@ if not "%PROBLEM_NAME%"=="" (
     echo.
 )
 echo int main^(^) {
-echo     ios_base::sync_with_stdio^(false^);
-echo     cin.tie^(NULL^);
 echo.
 echo     // Your solution here
 echo.

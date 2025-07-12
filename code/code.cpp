@@ -11,9 +11,9 @@
 
 using namespace std;
 
+// Problem: clean_template_test
+
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
 
     // Your solution here
 

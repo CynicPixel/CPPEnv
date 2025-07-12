@@ -23,9 +23,6 @@ cat > code/code.cpp << 'EOF'
 using namespace std;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    
     // Your solution here
     
     return 0;

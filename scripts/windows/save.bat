@@ -7,7 +7,14 @@ chcp 65001 >nul 2>&1
 setlocal enabledelayedexpansion
 
 set "SOLUTION_NAME=%1"
-set "DESCRIPTION=%2"
+set "DESCRIPTION=%~2"
+if not "%~3"=="" set "DESCRIPTION=%DESCRIPTION% %~3"
+if not "%~4"=="" set "DESCRIPTION=%DESCRIPTION% %~4"
+if not "%~5"=="" set "DESCRIPTION=%DESCRIPTION% %~5"
+if not "%~6"=="" set "DESCRIPTION=%DESCRIPTION% %~6"
+if not "%~7"=="" set "DESCRIPTION=%DESCRIPTION% %~7"
+if not "%~8"=="" set "DESCRIPTION=%DESCRIPTION% %~8"
+if not "%~9"=="" set "DESCRIPTION=%DESCRIPTION% %~9"
 set "SOLUTIONS_DIR=solutions"
 
 if "%SOLUTION_NAME%"=="" (

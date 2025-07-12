@@ -91,6 +91,9 @@ scripts\windows\save.bat problem_name
 # Save current solution
 ./cp.sh save two_sum "Find two numbers that add up to target"
 
+# Save without description
+./cp.sh save binary_search
+
 # List all saved solutions
 ./cp.sh list
 
@@ -101,6 +104,12 @@ scripts\windows\save.bat problem_name
 cd solutions/two_sum
 ```
 
+### Workspace Status
+```bash
+# Check current workspace status
+./cp.sh status          # Shows current problem, recent solutions, quick commands
+```
+
 ### Starting Fresh
 ```bash
 # Reset workspace for new problem
@@ -109,19 +118,23 @@ cd solutions/two_sum
 
 ## 📝 Code Template
 
-Your `code/code.cpp` uses pure competitive programming style - **no file I/O code needed**:
+The `code/code.cpp` uses pure competitive programming style - **no file I/O code needed**:
 
 ```cpp
 #include <iostream>
 #include <vector>
-// ... your includes
+#include <algorithm>
+#include <string>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <climits>
 
 using namespace std;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    
     // Your solution uses standard I/O
     int n;
     cin >> n;  // Reads from input.txt automatically
@@ -146,8 +159,12 @@ int main() {
 - **Automatic I/O**: System handles file redirection transparently  
 - **Judge-ready**: Copy your `code/code.cpp` directly to online judges
 - **Fast compilation**: Optimized C++17 with useful flags
-- **Solution archiving**: Save and organize solutions by problem name
+- **Multi-compiler support**: Auto-detects GCC, MinGW, and MSVC on Windows
+- **Solution archiving**: Save and organize solutions by problem name with descriptions
+- **Rich status reporting**: Shows current workspace state and recent solutions
+- **Formatted solution listing**: Clean, organized view of saved solutions
 - **README generation**: Auto-generated documentation templates
+- **Cross-platform**: Works on Windows, macOS, and Linux
 - **Clean workflow**: Focus entirely on algorithms
 
 ## 💡 Tips
@@ -157,7 +174,10 @@ int main() {
 3. **Copy-paste to judges** - your code works directly on Codeforces, etc.
 4. **Test thoroughly** - use multiple test cases in `code/input.txt`
 5. **Run saved solutions** - use `./cp.sh run solution_name` to test old solutions
-6. **Document solutions** - update the README.md in saved solutions
+6. **Use descriptions** - add descriptions when saving: `./cp.sh save name "description"`
+7. **Check status regularly** - use `./cp.sh status` to see current workspace state
+8. **Browse solutions** - use `./cp.sh list` to see all saved solutions
+9. **Document solutions** - update the README.md in saved solutions
 
 ## 🏆 Example Workflow
 
@@ -172,16 +192,22 @@ int main() {
 echo -e "5\n1 2 3 4 5" > code/input.txt
 ./cp.sh run
 
-# 4. Save when complete
+# 4. Check workspace status
+./cp.sh status
+
+# 5. Save when complete
 ./cp.sh save binary_search "Classic binary search implementation"
 
-# 5. Test saved solution later
+# 6. Test saved solution later
 ./cp.sh run binary_search
 
-# 6. List all solutions
+# 7. List all solutions
 ./cp.sh list
 
-# 7. Study later
+# 8. View specific solution details
+./cp.sh list binary_search
+
+# 9. Study later
 cd solutions/binary_search
 cat README.md
 ```
